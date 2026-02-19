@@ -1,87 +1,72 @@
-🌍 AI Travel & Lifestyle Concierge
-Autonomous Multi-Agent System for Intelligent Trip Planning
-This project is a high-performance, full-stack application designed to automate complex travel planning. Using an Agentic AI approach, it orchestrates multiple specialized agents that research, calculate, and synthesize data from the real web to create comprehensive 7-day itineraries.
+🌍 AI Autonomous Travel Concierge
+Multi-Agent Orchestration with CrewAI, Llama 3.1 & FastAPI
+This project is an advanced Agentic AI system that automates the end-to-end travel planning process. It utilizes a team of specialized AI agents that reason, collaborate, and use real-world tools (Search, Calculator) to deliver verified, high-precision 7-day itineraries.
 
-🧠 System Architecture & AI Logic
-The core of the system is built on a Sequential Multi-Agent Workflow using the CrewAI framework. Unlike simple chatbots, these agents perform task decomposition and use external tools to "ground" their answers in reality.
+🧠 System Architecture & ML Logic
+The core of the system is a Sequential Multi-Agent Workflow. Unlike static chatbots, this architecture breaks down complex requests into sub-tasks, ensuring each stage is handled by a specialized expert agent to maintain context and accuracy.
 
 🤖 The Agentic Crew
-City Selection Expert: Analyzes climate, flight costs, and user interests to pick the best destination.
+City Selection Expert: Analyzes climate data, flight availability from the origin, and traveler interests to select the optimal destination.
 
-Local Tour Guide: A specialized "researcher" that finds hidden gems, local customs, and real-time events.
+Local Tour Guide: A "Knowledge Retrieval" specialist that performs deep-web research to find hidden gems, local customs, and real-time events.
 
-Expert Travel Agent: The "synthesizer" that compiles all data into a detailed, budget-aware Markdown plan.
+Expert Travel Agent: The "Executive Agent" that synthesizes all gathered data into a structured, budget-aware Markdown itinerary.
 
-🛠 Tools & Integration
-Search Tool: Custom integration with Serper API (Google Search).
+🛠️ Tool Grounding & Retrieval
+Agents are equipped with autonomous tools to "ground" their responses in real-world data:
 
-Calculation Tool: Python-based mathematical validator for budget estimations.
+Search Tool: Custom integration with Serper API for real-time Google Search indexing.
 
-Inference Engine: Groq (Llama 3.1 8B & 3.3 70B) for low-latency reasoning.
+Calculator Tool: A Python-based validator that allows agents to perform precise arithmetic for budget breakdowns, eliminating LLM math hallucinations.
 
-🚀 Technical Stack
+🛡️ ML Engineering: Taming Hallucinations
+A significant part of the development was focused on AI Reliability and ensuring consistent agent behavior.
+
+Structural Hallucinations: Large models (like Llama 70B) occasionally hallucinate non-standard tool-calling tags (e.g., <function>). To mitigate this, the system utilizes Llama 3.1 8B-Instant for tool-heavy tasks due to its superior instruction-following in JSON schemas.
+
+Content Quality (Anti-Lazy): To prevent superficial responses, specific Task Constraints were engineered into the prompts, mandating minimum word counts and actual verified names for hotels and restaurants.
+
+Data Grounding: Agents are restricted from finalizing budget or logistical tasks without a mandatory Internet Search step, ensuring every price and flight cost is backed by real data.
+
+🚥 Optimization & Infrastructure
+Rate-Limit Management: To operate within Groq API constraints (6,000 TPM), the agents implement Request Throttling using max_rpm=1.
+
+Connection Resilience: The Nginx and FastAPI layers are configured with a 300s timeout to support long-polling during intensive deep-research cycles.
+
+Microservices Architecture: The entire stack—Frontend (React), Backend (FastAPI), and Nginx—is containerized via Docker Compose for seamless deployment and environment parity.
+
+🛠 Technical Stack
 AI Orchestration: CrewAI
 
-LLMs: Llama 3.1 8B-Instant & Llama 3.3 70B
+Inference Engine: Groq (Llama 3.1 8B-Instant)
 
-Backend: FastAPI (Python) - Asynchronous request handling
+Backend: FastAPI (Asynchronous Python 3.12-slim)
 
-Frontend: React + Vite (Modern UI with Markdown rendering)
+Frontend: React + Vite
 
-DevOps: Docker & Docker Compose
+Infrastructure: Docker, Nginx
 
-Proxy/Web Server: Nginx (Configured for long-running AI sessions)
-
-🛡️ Engineering Challenges & "The Battle with Hallucinations"
-A significant part of the development was focused on AI Safety and Reliability.
-
-1. Taming Structural Hallucinations
-Problem: Larger models like Llama 70B sometimes hallucinated custom XML-like tags (e.g., <function>) instead of standard JSON tool-calls.
-
-Solution: Implemented strict Few-Shot Prompting and switched to the more "disciplined" 8B-Instant model for tool-heavy tasks to ensure 100% stable execution.
-
-2. Preventing "Lazy" Responses
-Problem: Smaller models tended to "cut corners," providing brief summaries instead of detailed 7-day plans.
-
-Solution: Engineered specific Task Constraints in the prompts, mandating minimum word counts and specific data points (links, prices) for each day.
-
-3. Data Grounding (The Factual Layer)
-Problem: Models often "guessed" prices (e.g., $30 hotels in central Paris).
-
-Solution: Enforced a Mandatory Internet Search step. Agents cannot proceed without providing a real URL or a verified search snippet from the Serper API.
-
-🚥 Performance Optimization & DevOps
-Rate-Limit Management: To handle Groq's free-tier limits (6,000 TPM), I engineered a synchronization layer using max_rpm=1. This forces "thoughtful" sequential execution.
-
-Connection Resilience: Configured Nginx and FastAPI to support long-polling connections with a 300s timeout, preventing breaks during intensive research cycles.
-
-Containerization: The entire environment (Frontend, Backend, Nginx) is orchestrated via Docker Compose for one-click deployment.
-
-⚙️ Installation & Setup
-Clone the repository:
+🚀 Installation & Setup
+Clone the Repository:
 
 Bash
-git clone https://github.com/your-username/ai-travel-planner.git
-cd ai-travel-planner
-Environment Variables:
+git clone https://github.com/RustemSan/tripPlanner.git
+cd tripPlanner
+Configure Environment:
 Create a .env file in the root directory:
 
-Фрагмент кода
-GROQ_API_KEY=your_groq_key
-SERPER_API_KEY=your_serper_key
+Fragment of code: 
+
+GROQ_API_KEY=your_groq_api_key
+
+SERPER_API_KEY=your_serper_api_key
+
 Run with Docker:
 
 Bash
 docker-compose up --build
-Access the App:
+Access the Application:
+
 Frontend: http://localhost:3000
-API Docs: http://localhost:8000/docs
 
-📈 Future Roadmap
-Implement Hierarchical Process with a "Manager Agent" for more complex, non-linear tasks.
-
-Integrate Azure OpenAI for enterprise-grade scalability.
-
-Add LLM-as-a-Judge to automatically evaluate the quality of the generated itineraries.
-
-Developed as part of a Data Science portfolio at CTU Prague (ČVUT).
+API Docs (Swagger): http://localhost:8000/docs
