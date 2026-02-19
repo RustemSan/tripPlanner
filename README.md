@@ -78,4 +78,4 @@ A core focus of this project was ensuring **AI Reliability**. We implemented sev
 * **LLM-as-a-Judge**: Integrating a secondary model to automatically grade the quality and safety of generated itineraries.
 
 ---
-*Developed as part of a Data Science portfolio at CTU Prague (ČVUT).*
+*Developed by Rustem Sandibekov — Exploring the frontiers of Agentic AI.*
