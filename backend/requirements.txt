@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+crewai==1.9.3
+litellm
+python-dotenv
+unstructured
+pydantic<3.0.0
+langchain-community
+langchain-openai
+apscheduler
+email-validator
+fastapi-sso

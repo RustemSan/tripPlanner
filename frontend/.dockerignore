@@ -1,0 +1,16 @@
+# Ignore node_modules and build directories
+node_modules
+dist
+build
+
+# Ignore Python cache and virtual environments
+__pycache__
+*.pyc
+venv
+.venv
+agentsVenv
+
+# Ignore secrets and git history
+.env
+.git
+.gitignore

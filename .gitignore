@@ -1,0 +1,56 @@
+# =========================
+# Secrets and configurations
+# =========================
+.env
+*.env
+.env.*
+!.env.example
+!env_example.txt
+
+# =========================
+# Backend (Python / FastAPI / CrewAI)
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+.venv/
+agentsVenv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+
+# =========================
+# Frontend (React / Vite / Node.js)
+# =========================
+node_modules/
+dist/
+dist-ssr/
+build/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# IDEs and editors
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
