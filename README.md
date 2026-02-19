@@ -1,72 +1,81 @@
-🌍 AI Autonomous Travel Concierge
-Multi-Agent Orchestration with CrewAI, Llama 3.1 & FastAPI
-This project is an advanced Agentic AI system that automates the end-to-end travel planning process. It utilizes a team of specialized AI agents that reason, collaborate, and use real-world tools (Search, Calculator) to deliver verified, high-precision 7-day itineraries.
+# 🌍 AI Autonomous Travel Concierge
+### *Autonomous Multi-Agent System for Intelligent Trip Planning*
 
-🧠 System Architecture & ML Logic
-The core of the system is a Sequential Multi-Agent Workflow. Unlike static chatbots, this architecture breaks down complex requests into sub-tasks, ensuring each stage is handled by a specialized expert agent to maintain context and accuracy.
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0+-05998b?style=for-the-badge&logo=fastapi)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ed?style=for-the-badge&logo=docker)
+![CrewAI](https://img.shields.io/badge/Orchestration-CrewAI-red?style=for-the-badge)
 
-🤖 The Agentic Crew
-City Selection Expert: Analyzes climate data, flight availability from the origin, and traveler interests to select the optimal destination.
+An advanced **Agentic AI** solution that automates the end-to-end travel planning process. Unlike standard RAG systems, this project utilizes a team of specialized AI agents that reason, collaborate, and execute Python-based tools to deliver high-precision itineraries.
 
-Local Tour Guide: A "Knowledge Retrieval" specialist that performs deep-web research to find hidden gems, local customs, and real-time events.
+---
 
-Expert Travel Agent: The "Executive Agent" that synthesizes all gathered data into a structured, budget-aware Markdown itinerary.
+## 🧠 System Architecture
 
-🛠️ Tool Grounding & Retrieval
-Agents are equipped with autonomous tools to "ground" their responses in real-world data:
+The system utilizes a **Sequential Multi-Agent Workflow**. This ensures a clear chain of thought (Reasoning Chain) where data flows logically from research to final synthesis.
 
-Search Tool: Custom integration with Serper API for real-time Google Search indexing.
 
-Calculator Tool: A Python-based validator that allows agents to perform precise arithmetic for budget breakdowns, eliminating LLM math hallucinations.
+### 🤖 The Agentic Crew
+* **City Selection Expert**: Analyzes climate data, flight costs, and traveler interests to select the optimal destination.
+* **Local Tour Guide**: A research-heavy agent that finds "hidden gems" and local customs via real-time web search.
+* **Expert Travel Agent**: The "Executive Agent" responsible for the final synthesis into a structured Markdown itinerary.
 
-🛡️ ML Engineering: Taming Hallucinations
-A significant part of the development was focused on AI Reliability and ensuring consistent agent behavior.
+---
 
-Structural Hallucinations: Large models (like Llama 70B) occasionally hallucinate non-standard tool-calling tags (e.g., <function>). To mitigate this, the system utilizes Llama 3.1 8B-Instant for tool-heavy tasks due to its superior instruction-following in JSON schemas.
+## 🛠️ ML Engineering & Logic
 
-Content Quality (Anti-Lazy): To prevent superficial responses, specific Task Constraints were engineered into the prompts, mandating minimum word counts and actual verified names for hotels and restaurants.
+### ⚔️ Taming the AI (Hallucination Mitigation)
+A core focus of this project was ensuring **AI Reliability**. We implemented several layers of defense against common LLM failures:
 
-Data Grounding: Agents are restricted from finalizing budget or logistical tasks without a mandatory Internet Search step, ensuring every price and flight cost is backed by real data.
+| Challenge | Mitigation Strategy | Implementation |
+| :--- | :--- | :--- |
+| **Structural Hallucinations** | Instruction Following Optimization | Pivoted to **Llama 3.1 8B-Instant** for tool-heavy tasks to ensure 100% stable JSON schema execution. |
+| **Content Quality** | Detailed Prompt Constraints | Mandated **minimum word counts** and specific data points (URLs/Prices) in task descriptions. |
+| **Factual Accuracy** | **Data Grounding** | Restricted agents from finishing tasks without an **Internet Search** step to verify real-world prices. |
 
-🚥 Optimization & Infrastructure
-Rate-Limit Management: To operate within Groq API constraints (6,000 TPM), the agents implement Request Throttling using max_rpm=1.
+### 🚥 Performance & Infrastructure
+* **Rate-Limit Management**: Engineered a synchronization layer using `max_rpm=1` to handle the 6,000 TPM limits of the Groq API.
+* **Connection Resilience**: Configured **Nginx** and **FastAPI** to support long-polling with a **300s timeout**, allowing deep-research cycles to complete without interruption.
+* **Tool-Calling**: Developed custom Python tools for **Mathematical Validation** (`CalculatorTools`) to prevent LLM arithmetic errors in budget breakdowns.
 
-Connection Resilience: The Nginx and FastAPI layers are configured with a 300s timeout to support long-polling during intensive deep-research cycles.
+---
 
-Microservices Architecture: The entire stack—Frontend (React), Backend (FastAPI), and Nginx—is containerized via Docker Compose for seamless deployment and environment parity.
+## 🚀 Technical Stack
 
-🛠 Technical Stack
-AI Orchestration: CrewAI
+* **AI Engine**: [CrewAI](https://www.crewai.com/) (Orchestration)
+* **Models**: Llama 3.1 8B-Instant (Inference via Groq)
+* **Backend**: FastAPI (Python 3.12-slim)
+* **Tools**: Serper API (Google Search), Custom Python Calculator
+* **DevOps**: Docker, Docker Compose, Nginx
 
-Inference Engine: Groq (Llama 3.1 8B-Instant)
+---
 
-Backend: FastAPI (Asynchronous Python 3.12-slim)
+## ⚙️ Installation & Setup
 
-Frontend: React + Vite
+1.  **Clone the Repository**
+    ```bash
+    git clone [https://github.com/RustemSan/tripPlanner.git](https://github.com/RustemSan/tripPlanner.git)
+    cd tripPlanner
+    ```
 
-Infrastructure: Docker, Nginx
+2.  **Configure Credentials**
+    Create a `.env` file in the root directory:
+    ```env
+    SERPER_API_KEY=your_key_here
+    GROQ_API_KEY=your_key_here
+    ```
 
-🚀 Installation & Setup
-Clone the Repository:
+3.  **Deploy with Docker**
+    ```bash
+    docker-compose up --build
+    ```
 
-Bash
-git clone https://github.com/RustemSan/tripPlanner.git
-cd tripPlanner
-Configure Environment:
-Create a .env file in the root directory:
+---
 
-Fragment of code: 
+## 📈 Future Roadmap
+* **Hierarchical Orchestration**: Implementing a "Manager Agent" to handle non-linear task delegation.
+* **Azure Integration**: Transitioning to Azure OpenAI services for enterprise-grade scalability.
+* **LLM-as-a-Judge**: Integrating a secondary model to automatically grade the quality and safety of generated itineraries.
 
-GROQ_API_KEY=your_groq_api_key
-
-SERPER_API_KEY=your_serper_api_key
-
-Run with Docker:
-
-Bash
-docker-compose up --build
-Access the Application:
-
-Frontend: http://localhost:3000
-
-API Docs (Swagger): http://localhost:8000/docs
+---
+*Developed as part of a Data Science portfolio at CTU Prague (ČVUT).*
